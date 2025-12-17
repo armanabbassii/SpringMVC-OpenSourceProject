@@ -23,8 +23,6 @@ public class Teacher extends User {
     private String employeeCode;
 
     //RELATIONS
-    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
-    private List<Course> courseList = new ArrayList<>();
-
-
+//    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
+//    private List<Course> courseList = new ArrayList<>();
 }

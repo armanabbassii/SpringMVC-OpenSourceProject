@@ -29,23 +29,31 @@ public class User extends BaseEntity<Long> {
     private String firstName;
     private String familyName;
     @Size(max = 11)
-    private Integer phoneNumber;
+    private String phoneNumber;
     private String address;
-    //    @Column(nullable = false)
-//    @Enumerated(EnumType.STRING)
-//    private USER_ROLE userRole;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private USER_STATUS userStatus;
 
-    // RELATIONS
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
 
-    private Set<Role> roles = new HashSet<>();
+
+
+    //    @Column(nullable = false)
+//    @Enumerated(EnumType.STRING)
+//    private USER_ROLE userRole;
+
+
+    // RELATIONS
+
+    // it must deleted?
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "users_roles",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id")
+//    )
+//
+//    private Set<Role> roles = new HashSet<>();
     //each user can have one role (List ❌)
 }

@@ -17,7 +17,7 @@ public class Student extends User {
     private String major;
 
     //RELATIONS
-    @ManyToMany(mappedBy = "students", fetch = FetchType.LAZY)
-    private List<Course> courseList = new ArrayList<>();
+//    @ManyToMany(mappedBy = "students", fetch = FetchType.LAZY)
+//    private List<Course> courseList = new ArrayList<>();
 
 }

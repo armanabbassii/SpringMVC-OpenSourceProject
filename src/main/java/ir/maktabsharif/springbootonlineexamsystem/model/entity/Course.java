@@ -26,19 +26,23 @@ public class Course extends BaseEntity<Long> {
     private LocalDate endDateCourse;
 
     //RELATIONS
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacher_id")
-    private Teacher teacher;
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    private List<UserCourseRole> userCourseRoles = new ArrayList<>();
+
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "teacher_id")
+//    private Teacher teacher;
     // @JoinTable(
 //            name = "role_authorities",
 //            joinColumns = @JoinColumn(name = "role_id"),
 //            inverseJoinColumns = @JoinColumn(name = "authority_id")
 //    )
-    @ManyToMany
-    @JoinTable(
-            name = "course_students",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id")
-    )
-    private List<Student> studentList = new ArrayList<>();
+//    @ManyToMany
+//    @JoinTable(
+//            name = "course_students",
+//            joinColumns = @JoinColumn(name = "course_id"),
+//            inverseJoinColumns = @JoinColumn(name = "student_id")
+//    )
+//    private List<Student> studentList = new ArrayList<>();
 }

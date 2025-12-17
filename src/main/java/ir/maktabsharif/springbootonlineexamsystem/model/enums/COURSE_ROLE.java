@@ -1,7 +1,7 @@
 package ir.maktabsharif.springbootonlineexamsystem.model.enums;
 
-public enum USER_STATUS {
-    PENDING,
-    APPROVED,
-    BLOCKED,
+public enum COURSE_ROLE {
+    TEACHER,
+    STUDENT
+
 }
