@@ -29,7 +29,7 @@ public class Course extends BaseEntity<Long> {
 
     //RELATIONS
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
-    private List<UserCourseRole> userCourseRoles = new ArrayList<>();
+    private List<UserCourseRole> userCourseRoles = new ArrayList<>(); // one course == many user-course
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")

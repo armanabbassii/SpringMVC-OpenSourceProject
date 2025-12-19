@@ -9,9 +9,8 @@ public enum USER_STATUS {
     BLOCKED("مسدود شده");
 
     private final String title;
-
+//create new method -> pending enter
     USER_STATUS(String title) {
         this.title = title;
     }
-
 }

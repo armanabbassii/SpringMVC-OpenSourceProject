@@ -38,6 +38,7 @@ public class CourseServiceImpl implements CourseService {
                 throw new IllegalArgumentException("تاریخ پایان نمی‌تواند قبل از تاریخ شروع باشد");
             }
         }
+        //In 18
         Course course = Course.builder()
                 .title(courseDto.getTitle())
                 .courseUniqueId(generateUniqueCourseId())
@@ -86,16 +87,18 @@ public class CourseServiceImpl implements CourseService {
 
         Course course = courseRepository.findById(courseId)
                 .orElseThrow();
+        // entity managed
+        // keep in Persistence Context
 
         Student student = studentRepository.findById(studentId)
                 .orElseThrow();
 
         if (!course.getStudentList().contains(student)) {
             course.getStudentList().add(student);
+            // changed on entity managed
+            // hibernate keep tracking
         }
-        //چون رابطه owning side است → فقط course را تغییر می‌دهیم
-        //
-        //save لازم نیست (در transactional)
+
     }
 
         @Transactional

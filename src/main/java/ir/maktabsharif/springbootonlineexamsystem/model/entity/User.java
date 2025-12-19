@@ -1,7 +1,6 @@
 package ir.maktabsharif.springbootonlineexamsystem.model.entity;
 
 import ir.maktabsharif.springbootonlineexamsystem.model.entity.base.BaseEntity;
-import ir.maktabsharif.springbootonlineexamsystem.model.enums.USER_ROLE;
 import ir.maktabsharif.springbootonlineexamsystem.model.enums.USER_STATUS;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -38,9 +37,11 @@ public class User extends BaseEntity<Long> {
     @Column(nullable = false)
     private USER_STATUS userStatus;
 
-    //    @Column(nullable = false)
+//    @Column(nullable = false)
 //    @Enumerated(EnumType.STRING)
 //    private USER_ROLE userRole;
+
+    //role of user in system
     @Column(nullable = false)
     private boolean admin = false;
 

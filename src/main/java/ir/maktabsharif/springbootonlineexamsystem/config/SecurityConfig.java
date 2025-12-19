@@ -35,6 +35,7 @@ public class SecurityConfig {
                                 "/js/**"
                         ).permitAll()
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                        //user dont authorize again
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

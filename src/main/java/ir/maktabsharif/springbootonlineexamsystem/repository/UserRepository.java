@@ -26,4 +26,3 @@ public interface UserRepository extends JpaRepository<User,Long> {
             @Param("familyName") String familyName
     );
 }
-//TYPE(u).name دقیقاً مقدار @DiscriminatorValue را می‌گیرد.

@@ -1,7 +1,6 @@
 package ir.maktabsharif.springbootonlineexamsystem.bootstrap;
 
 import ir.maktabsharif.springbootonlineexamsystem.model.entity.User;
-import ir.maktabsharif.springbootonlineexamsystem.model.enums.USER_ROLE;
 import ir.maktabsharif.springbootonlineexamsystem.model.enums.USER_STATUS;
 import ir.maktabsharif.springbootonlineexamsystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

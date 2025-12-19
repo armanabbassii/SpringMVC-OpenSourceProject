@@ -22,13 +22,6 @@ public class AdminController {
 
 
 
-//    @PostMapping("/users/{id}/status")
-//    public String changeStatus(@PathVariable Long id,
-//                               @RequestParam USER_STATUS status
-//    ) {
-//        userService.updateUserStatus(id, status);
-//        return "redirect:/admin/users";
-//    }
 
     @GetMapping("/users/{id}/edit")
     public String getUserId(@PathVariable Long id, Model model) {
@@ -84,12 +77,3 @@ public class AdminController {
         return "admin/users";
     }
 }
-//چرا این کار درسته؟
-//
-//Thymeleaf همیشه search رو می‌بینه
-//
-//چه سرچ انجام شده باشه
-//
-//چه اولین بار صفحه باز شده باشه
-//
-//فرم خالی یا پر → بدون خطا

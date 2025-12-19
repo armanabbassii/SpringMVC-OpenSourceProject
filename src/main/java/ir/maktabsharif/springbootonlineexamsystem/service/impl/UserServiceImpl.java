@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
-
+//lazy loading need to session + valid in transaction
     @Override
     @Transactional(readOnly = true)
     public User findById(Long id) {
@@ -78,7 +78,6 @@ public class UserServiceImpl implements UserService {
                         new RuntimeException("User not found with id: " + id));
     }
 
-    //todo can i delete it?
     @Override
     public void updateUserStatus(Long userId, USER_STATUS status) {
         User user = userRepository.findById(userId)
@@ -86,8 +85,7 @@ public class UserServiceImpl implements UserService {
         user.setUserStatus(status);
         userRepository.save(user);
     }
-
-    //todo
+//get data for update
     @Transactional(readOnly = true)
     @Override
     public UserDto getUserId(Long id) {
@@ -113,7 +111,7 @@ public class UserServiceImpl implements UserService {
         return dtoBuilder.build();
     }
 
-    //todo
+
     @Transactional
     @Override
     public void updateUser(Long id, UserDto userDto) {
@@ -149,10 +147,9 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (user.getDtype().equalsIgnoreCase(targetType)) {
-            return; // تغییری ندارد
+            return;
         }
 
-        // اطلاعات مشترک
         String username = user.getUsername();
         String password = user.getPassword();
         String firstName = user.getFirstName();
@@ -161,11 +158,9 @@ public class UserServiceImpl implements UserService {
         String address = user.getAddress();
         USER_STATUS status = user.getUserStatus();
 
-        // حذف Entity قبلی
         userRepository.delete(user);
-        userRepository.flush(); // بسیار مهم
+        userRepository.flush(); //delete now from database
 
-        // ساخت Entity جدید
         if ("STUDENT".equalsIgnoreCase(targetType)) {
             Student student = Student.builder()
                     .username(username)
@@ -197,8 +192,6 @@ public class UserServiceImpl implements UserService {
 
             userRepository.save(teacher);
         }
-
-
     }
 
 
@@ -206,7 +199,7 @@ public class UserServiceImpl implements UserService {
     public List<User> userSearch(UserSearchDto dto) {
 
         List<User> users = userRepository.searchUsers(
-                emptyToNull(dto.getFirstName()),
+                emptyToNull(dto.getFirstName()),//ignore, if it firstname == null
                 emptyToNull(dto.getFamilyName())
         );
 
@@ -223,6 +216,7 @@ public class UserServiceImpl implements UserService {
     }
     private String emptyToNull(String value) {
         return (value == null || value.isBlank()) ? null : value;
+        // ""," ", "\n"
     }
 
 }
