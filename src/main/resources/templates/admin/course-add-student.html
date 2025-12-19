@@ -1,0 +1,24 @@
+<h2>
+    افزودن دانشجو به دوره:
+    <span th:text="${course.title}"></span>
+</h2>
+
+<form th:action="@{/admin/courses/{id}/students/add(id=${course.id})}"
+      method="post">
+
+    <select name="studentId" required>
+        <option value="">-- انتخاب دانشجو --</option>
+        <option th:each="s : ${students}"
+                th:value="${s.id}"
+                th:text="${s.firstName + ' ' + s.familyName}">
+        </option>
+    </select>
+
+    <br/><br/>
+    <button type="submit">افزودن</button>
+</form>
+
+<br/>
+<a th:href="@{/admin/courses/{id}/students(id=${course.id})}">
+    بازگشت
+</a>

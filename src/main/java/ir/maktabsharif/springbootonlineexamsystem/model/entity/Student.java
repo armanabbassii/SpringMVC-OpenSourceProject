@@ -2,6 +2,7 @@ package ir.maktabsharif.springbootonlineexamsystem.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Builder
+@SuperBuilder
 @DiscriminatorValue("STUDENT")
 public class Student extends User {
     private String major;

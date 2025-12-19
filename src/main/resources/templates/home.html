@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>خانه</title>
+</head>
+<body>
+
+<h2>داشبورد</h2>
+
+<p>خوش آمدید 👋</p>
+
+<a th:href="@{/admin/users}">مدیریت کاربران</a>
+<a th:href="@{/admin/courses}">مدیریت دوره‌ها</a>
+<br/><br/>
+<form th:action="@{/logout}" method="post">
+    <button type="submit">خروج</button>
+</form>
+
+</body>
+</html>

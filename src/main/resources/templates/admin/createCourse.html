@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ایجاد دوره</title>
+</head>
+<body>
+
+<h2>ایجاد دوره جدید</h2>
+
+<div th:if="${logicError}">
+    <p style="color:red;" th:text="${logicError}"></p>
+</div>
+
+<form th:action="@{/admin/courses/create}" th:object="${form}" method="post">
+
+    <div>
+        <label>عنوان دوره</label><br/>
+        <input th:field="*{title}" placeholder="مثلاً جاوا مقدماتی"/>
+        <br/>
+        <small style="color:red;" th:errors="*{title}"></small>
+    </div>
+
+    <br/>
+
+    <div>
+        <label>تاریخ شروع</label><br/>
+        <input type="date" th:field="*{startDateCourse}"/>
+        <br/>
+        <small style="color:red;" th:errors="*{startDateCourse}"></small>
+    </div>
+
+    <br/>
+
+    <div>
+        <label>تاریخ پایان</label><br/>
+        <input type="date" th:field="*{endDateCourse}"/>
+        <br/>
+        <small style="color:red;" th:errors="*{endDateCourse}"></small>
+    </div>
+
+    <br/>
+
+    <button type="submit">ثبت دوره</button>
+</form>
+
+<br/>
+<a th:href="@{/admin/courses}">بازگشت به لیست دوره‌ها</a>
+
+</body>
+</html>

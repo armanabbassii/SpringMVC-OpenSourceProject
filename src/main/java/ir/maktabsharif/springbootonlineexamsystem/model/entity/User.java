@@ -1,10 +1,12 @@
 package ir.maktabsharif.springbootonlineexamsystem.model.entity;
 
 import ir.maktabsharif.springbootonlineexamsystem.model.entity.base.BaseEntity;
+import ir.maktabsharif.springbootonlineexamsystem.model.enums.USER_ROLE;
 import ir.maktabsharif.springbootonlineexamsystem.model.enums.USER_STATUS;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Builder
+@SuperBuilder
 @Table(name = "users")
 public class User extends BaseEntity<Long> {
 
@@ -32,28 +34,16 @@ public class User extends BaseEntity<Long> {
     private String phoneNumber;
     private String address;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private USER_STATUS userStatus;
-
-
-
 
     //    @Column(nullable = false)
 //    @Enumerated(EnumType.STRING)
 //    private USER_ROLE userRole;
+    @Column(nullable = false)
+    private boolean admin = false;
 
-
-    // RELATIONS
-
-    // it must deleted?
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "users_roles",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id")
-//    )
-//
-//    private Set<Role> roles = new HashSet<>();
-    //each user can have one role (List ❌)
+    @Column(name = "dtype", insertable = false, updatable = false)
+    private String dtype;
 }

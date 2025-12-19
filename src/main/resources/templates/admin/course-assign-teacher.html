@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>انتخاب استاد</title>
+</head>
+<body>
+
+<h2>
+    انتخاب استاد برای دوره:
+    <span th:text="${course.title}"></span>
+</h2>
+
+<form th:action="@{/admin/courses/{id}/assign-teacher(id=${course.id})}"
+      method="post">
+
+    <select name="teacherId" required>
+        <option value="">-- انتخاب استاد --</option>
+        <option th:each="t : ${teachers}"
+                th:value="${t.id}"
+                th:text="${t.firstName + ' ' + t.familyName}">
+        </option>
+    </select>
+
+    <br/><br/>
+    <button type="submit">ثبت استاد</button>
+</form>
+
+<br/>
+<a th:href="@{/admin/courses}">بازگشت</a>
+
+</body>
+</html>

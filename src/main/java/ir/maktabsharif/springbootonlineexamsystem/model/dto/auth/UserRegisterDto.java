@@ -1,18 +1,16 @@
-package ir.maktabsharif.springbootonlineexamsystem.model.dto;
+package ir.maktabsharif.springbootonlineexamsystem.model.dto.auth;
 
-import jakarta.persistence.Enumerated;
+import ir.maktabsharif.springbootonlineexamsystem.model.enums.UserType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class UserRegisterDto {
 
     @NotBlank
@@ -33,5 +31,5 @@ public class UserRegisterDto {
     private String address;
 
     @NotNull
-    private RegisterType registerType;
+    private UserType userType;
 }

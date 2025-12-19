@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>مدیریت کاربران</title>
+</head>
+<body>
+
+<h2>لیست کاربران</h2>
+<form method="get"
+      th:action="@{/admin/users}"
+      th:object="${search}">
+
+    <input th:field="*{firstName}" placeholder="نام"/>
+
+    <input th:field="*{familyName}" placeholder="نام خانوادگی"/>
+
+    <select th:field="*{userType}">
+        <option value="">همه</option>
+        <option value="STUDENT">دانشجو</option>
+        <option value="TEACHER">استاد</option>
+    </select>
+
+    <button type="submit">جستجو</button>
+</form>
+<table border="1">
+    <thead>
+    <tr>
+        <th>نام کاربری</th>
+        <th>نام</th>
+        <th>نام خانوادگی</th>
+        <th>نوع</th>
+        <th>وضعیت</th>
+        <th>عملیات</th>
+        <th>ویرایش</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="u : ${users}">
+        <td th:text="${u.username}"></td>
+        <td th:text="${u.firstName}"></td>
+        <td th:text="${u.familyName}"></td>
+
+        <!-- نوع کاربر -->
+        <td>
+            <span th:switch="${u.dtype}">
+                <span th:case="'STUDENT'">دانشجو</span>
+                <span th:case="'TEACHER'">استاد</span>
+                <span th:case="'User'">ادمین</span>
+                <span th:case="*">نامشخص</span>
+            </span>
+        </td>
+
+        <!-- وضعیت فقط نمایشی -->
+        <td th:text="${u.userStatus.title}"></td>
+        <td>
+            <a th:href="@{/admin/users/{id}/change-role(id=${u.id})}">
+                تغییر نقش
+            </a>
+        </td>
+        <!-- عملیات -->
+
+        <td>
+            <a th:href="@{/admin/users/{id}/edit(id=${u.id})}">
+                ویرایش
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<a th:href="@{/home}">بازگشت</a>
+
+</body>
+</html>

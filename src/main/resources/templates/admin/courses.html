@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>مدیریت دوره‌ها</title>
+</head>
+<body>
+
+<h2>لیست دوره‌ها</h2>
+
+<a th:href="@{/admin/courses/create}">➕ ایجاد دوره جدید</a>
+
+&nbsp; | &nbsp;
+<a th:href="@{/home}">بازگشت</a>
+
+<hr/>
+
+<table border="1" cellpadding="8">
+    <thead>
+    <tr>
+        <th>عنوان</th>
+        <th>شناسه یکتا</th>
+        <th>تاریخ شروع</th>
+        <th>تاریخ پایان</th>
+        <th>عملیات</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:if="${#lists.isEmpty(courses)}">
+        <td colspan="5">هیچ دوره‌ای ثبت نشده است.</td>
+    </tr>
+
+    <tr th:each="c : ${courses}">
+        <td th:text="${c.title}"></td>
+        <td th:text="${c.courseUniqueId}"></td>
+        <td th:text="${c.startDateCourse}"></td>
+        <td th:text="${c.endDateCourse}"></td>
+        <td>
+            <a th:href="@{/admin/courses/{id}/assign-teacher(id=${c.id})}">
+                انتخاب استاد
+            </a>
+            |
+            <a th:href="@{/admin/courses/{id}/students(id=${c.id})}">
+                مدیریت دانشجویان
+            </a>
+            |
+            <a th:href="@{/admin/courses/{id}/participants(id=${c.id})}">
+                مشاهده افراد دوره
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

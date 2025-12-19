@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>افراد دوره</title>
+</head>
+<body>
+
+<h2>
+    افراد دوره:
+    <span th:text="${course.title}"></span>
+</h2>
+
+<hr/>
+
+<h3>استاد دوره</h3>
+
+<div th:if="${teacher != null}">
+    <p>
+        <strong>نام:</strong>
+        <span th:text="${teacher.firstName + ' ' + teacher.familyName}"></span>
+    </p>
+    <p>
+        <strong>تخصص:</strong>
+        <span th:text="${teacher.specialization}"></span>
+    </p>
+</div>
+
+<div th:if="${teacher == null}">
+    <p>⚠ هنوز استادی برای این دوره تعیین نشده است.</p>
+</div>
+
+<hr/>
+
+<h3>دانشجویان دوره</h3>
+
+<table border="1" cellpadding="8">
+    <thead>
+    <tr>
+        <th>نام</th>
+        <th>نام خانوادگی</th>
+        <th>رشته</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:if="${#lists.isEmpty(students)}">
+        <td colspan="3">هیچ دانشجویی در این دوره ثبت نشده است.</td>
+    </tr>
+
+    <tr th:each="s : ${students}">
+        <td th:text="${s.firstName}"></td>
+        <td th:text="${s.familyName}"></td>
+        <td th:text="${s.major}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<a th:href="@{/admin/courses}">بازگشت به لیست دوره‌ها</a>
+
+</body>
+</html>

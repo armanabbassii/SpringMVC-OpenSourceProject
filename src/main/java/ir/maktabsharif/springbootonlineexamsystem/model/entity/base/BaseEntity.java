@@ -5,10 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.access.prepost.PreAuthorize;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -17,10 +16,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @MappedSuperclass
 @AllArgsConstructor
+@SuperBuilder
 public class BaseEntity<ID extends Serializable> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private ID id;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
