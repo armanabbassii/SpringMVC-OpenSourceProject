@@ -1,6 +1,5 @@
 package ir.maktabsharif.springbootonlineexamsystem.model.enums;
 
-public enum USER_ROLE {
-    TEACHER,
-    STUDENT
+public enum SYSTEM_ROLE {
+    ADMIN
 }

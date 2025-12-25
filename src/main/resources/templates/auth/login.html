@@ -3,26 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <title>ورود</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f6f7f9;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            max-width: 420px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 24px;
+            border-radius: 8px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1976d2;
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+        }
+
+        button {
+            margin-top: 10px;
+
+            padding: 10px;
+            font-size: 15px;
+            font-weight: 500;
+
+            background-color: #1976d2;
+            color: white;
+
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+
+            transition:
+                    background-color 0.2s ease,
+                    box-shadow 0.2s ease,
+                    transform 0.1s ease;
+        }
+
+        button:hover {
+            background-color: #1565c0;
+            box-shadow: 0 4px 10px rgba(25, 118, 210, 0.25);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .message {
+            max-width: 420px;
+            margin: 0 auto 12px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .error {
+            background-color: #fdecea;
+            color: #b71c1c;
+        }
+
+        .success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .register-link {
+            display: block;
+            margin-top: 16px;
+            text-align: center;
+            text-decoration: none;
+            color: #1976d2;
+            font-size: 14px;
+        }
+        .auth-input {
+            width: 100%;
+            height: 42px;
+
+            padding: 10px 12px;
+            font-size: 14px;
+
+            border: 1px solid #ccc;
+            border-radius: 6px;
+
+            box-sizing: border-box;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: #1976d2;
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+        }
+    </style>
 </head>
+
 <body>
 
 <h2>ورود</h2>
 
-<p th:if="${param.error}">
+<p th:if="${param.error}" class="message error">
     ورود ناموفق بود (احتمالاً هنوز تایید نشده‌اید)
 </p>
 
-<p th:if="${param.logout}">
+<p th:if="${param.logout}" class="message success">
     با موفقیت خارج شدید
 </p>
 
-<form th:action="@{/login}" method="post">
-    <input name="username" placeholder="enter username">
-    <input type="password" name="password" placeholder="enter password">
-    <button type="submit">ورود</button>
-</form>
+<div class="form-container">
+    <form th:action="@{/login}" method="post">
+        <input name="username" placeholder="نام کاربری" class="auth-input">
+        <input type="password" name="password" placeholder="رمز عبور" class="auth-input">
+        <button type="submit">ورود</button>
+    </form>
 
-<a href="/register">ثبت نام</a>
+    <a href="/register" class="register-link">ثبت نام</a>
+</div>
 
 </body>
 </html>

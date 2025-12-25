@@ -3,35 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <title>مدیریت کاربران</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f6f7f9;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* کانتینر مشترک فرم و جدول */
+        .page-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .search-form button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 8px 10px;
+            font-size: 14px;
+            font-weight: 500;
+
+            background-color: #1976d2;
+            color: #fff;
+
+            border: none;
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            transition: background-color 0.2s ease,
+            box-shadow 0.2s ease,
+            transform 0.1s ease;
+        }
+
+        .search-form button:hover {
+            background-color: #1565c0;
+            box-shadow: 0 4px 10px rgba(25, 118, 210, 0.25);
+        }
+
+        .search-form button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 6px rgba(25, 118, 210, 0.2);
+        }
+
+        .search-form button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.35);
+        }
+
+        .search-form input,
+        .search-form select,
+        .search-form button {
+            padding: 8px 10px;
+            font-size: 14px;
+        }
+
+        .search-form button {
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .search-form button:hover {
+            background-color: #125aa0;
+        }
+
+        /* جدول */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #1976d2;
+        }
+    </style>
 </head>
 <body>
-
 <h2>لیست کاربران</h2>
+
 <form method="get"
       th:action="@{/admin/users}"
-      th:object="${search}">
+      th:object="${search}"
+      class="search-form">
 
+    <!-- نام -->
     <input th:field="*{firstName}" placeholder="نام"/>
 
+    <!-- نام خانوادگی -->
     <input th:field="*{familyName}" placeholder="نام خانوادگی"/>
 
-    <select th:field="*{userType}">
-        <option value="">همه</option>
+    <!-- نوع ثبت‌نام -->
+    <select th:field="*{registerType}">
+        <option value="">همه نقش‌ها</option>
         <option value="STUDENT">دانشجو</option>
         <option value="TEACHER">استاد</option>
     </select>
 
-    <button type="submit">جستجو</button>
+    <!-- وضعیت کاربر -->
+    <select th:field="*{userStatus}">
+        <option value="">همه وضعیت‌ها</option>
+        <option value="PENDING">در انتظار تأیید</option>
+        <option value="APPROVED">تأیید شده</option>
+        <option value="BLOCKED">مسدود</option>
+    </select>
+    <br><br>
+    <button type="submit">🔍 جستجو</button>
+    <br><br>
+
 </form>
+
 <table border="1">
     <thead>
     <tr>
         <th>نام کاربری</th>
         <th>نام</th>
         <th>نام خانوادگی</th>
-        <th>نوع</th>
+        <th>ثبت‌نام به‌عنوان</th>
         <th>وضعیت</th>
-        <th>عملیات</th>
         <th>ویرایش</th>
     </tr>
     </thead>
@@ -42,24 +153,12 @@
         <td th:text="${u.firstName}"></td>
         <td th:text="${u.familyName}"></td>
 
-        <!-- نوع کاربر -->
-        <td>
-            <span th:switch="${u.dtype}">
-                <span th:case="'STUDENT'">دانشجو</span>
-                <span th:case="'TEACHER'">استاد</span>
-                <span th:case="'User'">ادمین</span>
-                <span th:case="*">نامشخص</span>
-            </span>
-        </td>
 
-        <!-- وضعیت فقط نمایشی -->
+        <!-- REGISTER TYPE -->
+        <td th:text="${u.registerType}"></td>
+
+        <!-- USER STATUS -->
         <td th:text="${u.userStatus.title}"></td>
-        <td>
-            <a th:href="@{/admin/users/{id}/change-role(id=${u.id})}">
-                تغییر نقش
-            </a>
-        </td>
-        <!-- عملیات -->
 
         <td>
             <a th:href="@{/admin/users/{id}/edit(id=${u.id})}">

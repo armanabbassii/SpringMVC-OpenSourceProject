@@ -1,7 +1,8 @@
 package ir.maktabsharif.springbootonlineexamsystem.controller;
 
-import ir.maktabsharif.springbootonlineexamsystem.model.enums.UserType;
+import ir.maktabsharif.springbootonlineexamsystem.model.enums.REGISTER_TYPE;
 import ir.maktabsharif.springbootonlineexamsystem.model.dto.auth.UserRegisterDto;
+import ir.maktabsharif.springbootonlineexamsystem.service.UserService;
 import ir.maktabsharif.springbootonlineexamsystem.service.impl.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,14 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @RequiredArgsConstructor
 public class AuthController {
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @GetMapping("/register")
     public String registerForm(Model model) {
         model.addAttribute("form", new UserRegisterDto());
-        model.addAttribute("types", UserType.values());
+        model.addAttribute("types", REGISTER_TYPE.publicTypes());
         return "auth/register";
-
     }
 
     @PostMapping("/register")
@@ -30,7 +30,7 @@ public class AuthController {
             @Valid @ModelAttribute("form") UserRegisterDto form,
             BindingResult bindingResult,
             Model model) {
-        model.addAttribute("types", UserType.values());
+        model.addAttribute("types", REGISTER_TYPE.publicTypes());
         if (bindingResult.hasErrors()) {
             return "auth/register";
         }

@@ -8,6 +8,7 @@ import ir.maktabsharif.springbootonlineexamsystem.model.entity.User;
 import ir.maktabsharif.springbootonlineexamsystem.model.enums.USER_STATUS;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     void register(UserRegisterDto userRegisterDto);
@@ -16,12 +17,17 @@ public interface UserService {
 
     void updateUserStatus(Long userId, USER_STATUS status);
 
-    UserDto getUserId(Long id);
+    UserDto getUserById(Long id);
 
     void updateUser(Long id, UserDto userDto);
-    void changeUserType(Long id, String targetType);
     User findById(Long id);
 
     List<User> userSearch(UserSearchDto userSearchDto);
+
+    List<User> findApprovedUsers();
+    List<User> findApprovedStudents();
+    List<User> findApprovedTeachers();
+
+
 
 }

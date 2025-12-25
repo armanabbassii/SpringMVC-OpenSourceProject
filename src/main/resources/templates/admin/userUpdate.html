@@ -8,96 +8,50 @@
 
 <h2>ویرایش کاربر</h2>
 
-<form th:action="@{/admin/users/{id}/edit(id=${form.id})}" th:object="${form}" method="post">
+<form th:action="@{/admin/users/{id}/edit(id=${form.id})}"
+      th:object="${form}"
+      method="post">
 
-    <!-- فقط نمایش -->
+    <!-- نام کاربری (فقط نمایش) -->
     <div>
         <label>نام کاربری (غیرقابل ویرایش)</label><br/>
-        <label>
-            <input th:field="*{username}" disabled/>
-        </label>
+        <input th:field="*{username}" disabled/>
     </div>
 
     <hr/>
 
     <div>
         <label>نام</label><br/>
-        <label>
-            <input th:field="*{firstName}"/>
-        </label>
+        <input th:field="*{firstName}"/>
         <small th:errors="*{firstName}"></small>
     </div>
 
     <div>
         <label>نام خانوادگی</label><br/>
-        <label>
-            <input th:field="*{familyName}"/>
-        </label>
+        <input th:field="*{familyName}"/>
         <small th:errors="*{familyName}"></small>
     </div>
 
     <div>
         <label>شماره تماس</label><br/>
-        <label>
-            <input th:field="*{phoneNumber}"/>
-        </label>
+        <input th:field="*{phoneNumber}"/>
     </div>
 
     <div>
         <label>آدرس</label><br/>
-        <label>
-            <input th:field="*{address}"/>
-        </label>
-    </div>
-
-    <div>
-        <label>وضعیت</label><br/>
-        <label>
-            <select th:field="*{userStatus}">
-                <option th:each="s : ${statuses}"
-                        th:value="${s}"
-                        th:text="${s.title}">
-                </option>
-            </select>
-        </label>
+        <input th:field="*{address}"/>
     </div>
 
     <hr/>
 
-    <!-- فیلدهای دانشجو -->
-    <div th:if="${form.dtype == 'STUDENT'}">
-        <h3>اطلاعات دانشجو</h3>
-
-        <div>
-            <label>رشته</label><br/>
-            <input th:field="*{major}"/>
-        </div>
-    </div>
-
-    <!-- فیلدهای استاد -->
-    <div th:if="${form.dtype == 'TEACHER'}">
-        <h3>اطلاعات استاد</h3>
-
-        <div>
-            <label>تخصص</label><br/>
-            <label>
-                <input th:field="*{specialization}"/>
-            </label>
-        </div>
-
-        <div>
-            <label>سال‌های تجربه</label><br/>
-            <label>
-                <input type="number" step="0.1" th:field="*{yearsOfExperience}"/>
-            </label>
-        </div>
-
-        <div>
-            <label>کد پرسنلی</label><br/>
-            <label>
-                <input th:field="*{employeeCode}"/>
-            </label>
-        </div>
+    <div>
+        <label>وضعیت حساب</label><br/>
+        <select th:field="*{userStatus}">
+            <option th:each="s : ${statuses}"
+                    th:value="${s}"
+                    th:text="${s.title}">
+            </option>
+        </select>
     </div>
 
     <br/>

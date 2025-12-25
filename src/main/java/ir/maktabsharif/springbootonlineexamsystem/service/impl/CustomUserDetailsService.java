@@ -2,6 +2,7 @@ package ir.maktabsharif.springbootonlineexamsystem.service.impl;
 
 
 import ir.maktabsharif.springbootonlineexamsystem.model.entity.User;
+import ir.maktabsharif.springbootonlineexamsystem.model.enums.SYSTEM_ROLE;
 import ir.maktabsharif.springbootonlineexamsystem.model.enums.USER_STATUS;
 import ir.maktabsharif.springbootonlineexamsystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new DisabledException("User is blocked");
         }
 
-        if (user.isAdmin()) {
+        if (user.getSystemRole() == SYSTEM_ROLE.ADMIN) {
             return org.springframework.security.core.userdetails.User
                     .withUsername(user.getUsername())
                     .password(user.getPassword())
@@ -46,11 +47,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .password(user.getPassword())
                 .roles("USER")
                 .build();
-//        return org.springframework.security.core.userdetails.User
-//                .withUsername(user.getUsername())
-//                .password(user.getPassword())
-//                .roles(user.getUserRole().name())
-////                .roles("USER")
-//                .build();
+
     }
 }

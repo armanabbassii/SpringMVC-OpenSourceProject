@@ -1,6 +1,7 @@
 package ir.maktabsharif.springbootonlineexamsystem.model.dto.list;
 
-import ir.maktabsharif.springbootonlineexamsystem.model.enums.UserType;
+import ir.maktabsharif.springbootonlineexamsystem.model.enums.REGISTER_TYPE;
+import ir.maktabsharif.springbootonlineexamsystem.model.enums.USER_STATUS;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,5 +10,6 @@ import lombok.Setter;
 public class UserSearchDto {
     private String firstName;
     private String familyName;
-    private UserType userType;
+    private REGISTER_TYPE registerType;
+    private USER_STATUS userStatus;
 }

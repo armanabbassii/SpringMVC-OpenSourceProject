@@ -1,6 +1,8 @@
 package ir.maktabsharif.springbootonlineexamsystem.bootstrap;
 
 import ir.maktabsharif.springbootonlineexamsystem.model.entity.User;
+import ir.maktabsharif.springbootonlineexamsystem.model.enums.REGISTER_TYPE;
+import ir.maktabsharif.springbootonlineexamsystem.model.enums.SYSTEM_ROLE;
 import ir.maktabsharif.springbootonlineexamsystem.model.enums.USER_STATUS;
 import ir.maktabsharif.springbootonlineexamsystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +28,8 @@ public class DataInitializer implements CommandLineRunner {
                     .phoneNumber("00000000000")
                     .address("SYSTEM")
                     .userStatus(USER_STATUS.APPROVED)
-                    .admin(true)
-//                    .userRole(USER_ROLE.ADMIN)
+                    .registerType(REGISTER_TYPE.ADMIN)
+                    .systemRole(SYSTEM_ROLE.ADMIN)
                     .build();
 
             userRepository.save(admin);

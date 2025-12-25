@@ -12,7 +12,8 @@ import lombok.*;
 public class UserDto {
 
     private Long id;
-    private String username;
+
+    private String username; // فقط نمایش، غیرقابل ویرایش
 
     @NotBlank
     private String firstName;
@@ -24,15 +25,4 @@ public class UserDto {
     private String address;
 
     private USER_STATUS userStatus;
-
-    private String dtype; // "STUDENT", "TEACHER", "User" ...
-
-    // ===== Student fields =====
-    private String major;
-
-    // ===== Teacher fields =====
-    private String specialization;
-    private Double yearsOfExperience;
-    private String employeeCode;
 }
-

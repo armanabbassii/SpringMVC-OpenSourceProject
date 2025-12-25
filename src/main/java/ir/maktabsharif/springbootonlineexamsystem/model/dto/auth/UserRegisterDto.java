@@ -1,6 +1,6 @@
 package ir.maktabsharif.springbootonlineexamsystem.model.dto.auth;
 
-import ir.maktabsharif.springbootonlineexamsystem.model.enums.UserType;
+import ir.maktabsharif.springbootonlineexamsystem.model.enums.REGISTER_TYPE;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -31,5 +31,5 @@ public class UserRegisterDto {
     private String address;
 
     @NotNull
-    private UserType userType;
+    private REGISTER_TYPE registerType;
 }

@@ -1,9 +1,16 @@
 package ir.maktabsharif.springbootonlineexamsystem.model.entity;
 
 import ir.maktabsharif.springbootonlineexamsystem.model.entity.base.BaseEntity;
-import ir.maktabsharif.springbootonlineexamsystem.model.enums.UserType;
+import ir.maktabsharif.springbootonlineexamsystem.model.enums.USER_ROLE;
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 @Entity
 public class UserCourseRole extends BaseEntity<Long> {
     @ManyToOne(fetch = FetchType.LAZY)
@@ -16,8 +23,9 @@ public class UserCourseRole extends BaseEntity<Long> {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserType userType;
+    private USER_ROLE userRole;
 
-    @Column(nullable = false)
-    private boolean active = true;
+//    @Column(nullable = false)
+//    private boolean active = true;
+    //UserCourseRole.userRole
 }

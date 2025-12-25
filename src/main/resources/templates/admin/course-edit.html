@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>افزودن دانشجو</title>
+    <title>ویرایش دوره</title>
 
     <style>
         body {
@@ -34,6 +34,7 @@
             font-size: 14px;
             font-weight: 500;
             margin-bottom: 4px;
+            display: inline-block;
         }
 
         .form-input {
@@ -52,6 +53,20 @@
             outline: none;
             border-color: #1976d2;
             box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+        }
+
+        small {
+            color: #d32f2f;
+            font-size: 12px;
+        }
+
+        .logic-error {
+            background-color: #fdecea;
+            color: #b71c1c;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 16px;
         }
 
         button {
@@ -97,30 +112,49 @@
 <body>
 
 <h2>
-    افزودن دانشجو به دوره:
-    <span th:text="${course.title}"></span>
+    ویرایش دوره:
+    <span th:text="${form.title}"></span>
 </h2>
 
 <div class="form-container">
 
-    <form th:action="@{/admin/courses/{id}/students/add(id=${course.id})}"
+    <div th:if="${logicError}" class="logic-error">
+        <p th:text="${logicError}"></p>
+    </div>
+
+    <form th:action="@{/admin/courses/{id}/edit(id=${courseId})}"
+          th:object="${form}"
           method="post">
 
-        <label>انتخاب کاربر</label>
-        <select name="userId" required class="form-input">
-            <option value="">-- انتخاب کاربر --</option>
-            <option th:each="u : ${users}"
-                    th:value="${u.id}"
-                    th:text="${u.firstName + ' ' + u.familyName}">
-            </option>
-        </select>
+        <div>
+            <label>عنوان دوره</label>
+            <input th:field="*{title}"
+                   class="form-input"
+                   placeholder="عنوان دوره"/>
+            <small th:errors="*{title}"></small>
+        </div>
 
-        <button type="submit">افزودن به‌عنوان دانشجو</button>
+        <div>
+            <label>تاریخ شروع</label>
+            <input type="date"
+                   th:field="*{startDateCourse}"
+                   class="form-input"/>
+            <small th:errors="*{startDateCourse}"></small>
+        </div>
+
+        <div>
+            <label>تاریخ پایان</label>
+            <input type="date"
+                   th:field="*{endDateCourse}"
+                   class="form-input"/>
+            <small th:errors="*{endDateCourse}"></small>
+        </div>
+
+        <button type="submit">💾 ذخیره تغییرات</button>
     </form>
 
-    <a th:href="@{/admin/courses/{id}/participants(id=${course.id})}"
-       class="back-link">
-        بازگشت به لیست افراد دوره
+    <a th:href="@{/admin/courses}" class="back-link">
+        بازگشت به لیست دوره‌ها
     </a>
 
 </div>

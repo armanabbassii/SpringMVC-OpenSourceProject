@@ -3,55 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <title>مدیریت دوره‌ها</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f6f7f9;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        .page-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 8px;
+        }
+
+        .top-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .top-actions a {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1976d2;
+        }
+
+        .top-actions a.primary {
+            background-color: #1976d2;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 6px;
+        }
+
+        .top-actions a.primary:hover {
+            background-color: #1565c0;
+        }
+
+        .message {
+            margin-bottom: 16px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .error {
+            background-color: #fdecea;
+            color: #b71c1c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .action-link {
+            text-decoration: none;
+            color: #1976d2;
+            font-size: 13px;
+        }
+
+        .action-link:hover {
+            text-decoration: underline;
+        }
+
+        .delete-button {
+            background-color: #fbe9e7;
+            color: #c62828;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .delete-button:hover {
+            background-color: #f44336;
+            color: #fff;
+        }
+
+        .empty-row {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+        }
+    </style>
 </head>
+
 <body>
 
 <h2>لیست دوره‌ها</h2>
 
-<a th:href="@{/admin/courses/create}">➕ ایجاد دوره جدید</a>
+<div class="page-container">
 
-&nbsp; | &nbsp;
-<a th:href="@{/home}">بازگشت</a>
+    <div th:if="${successMessage}" class="message success">
+        ✔ <span th:text="${successMessage}"></span>
+    </div>
 
-<hr/>
+    <div th:if="${errorMessage}" class="message error">
+        ⚠ <span th:text="${errorMessage}"></span>
+    </div>
 
-<table border="1" cellpadding="8">
-    <thead>
-    <tr>
-        <th>عنوان</th>
-        <th>شناسه یکتا</th>
-        <th>تاریخ شروع</th>
-        <th>تاریخ پایان</th>
-        <th>عملیات</th>
-    </tr>
-    </thead>
+    <div class="top-actions">
+        <a th:href="@{/admin/courses/create}" class="primary">➕ ایجاد دوره جدید</a>
+        <a th:href="@{/home}">بازگشت</a>
+    </div>
 
-    <tbody>
-    <tr th:if="${#lists.isEmpty(courses)}">
-        <td colspan="5">هیچ دوره‌ای ثبت نشده است.</td>
-    </tr>
+    <table>
+        <thead>
+        <tr>
+            <th>عنوان</th>
+            <th>شناسه یکتا</th>
+            <th>تاریخ شروع</th>
+            <th>تاریخ پایان</th>
+            <th>افراد دوره</th>
+            <th>ویرایش</th>
+            <th>حذف</th>
+        </tr>
+        </thead>
 
-    <tr th:each="c : ${courses}">
-        <td th:text="${c.title}"></td>
-        <td th:text="${c.courseUniqueId}"></td>
-        <td th:text="${c.startDateCourse}"></td>
-        <td th:text="${c.endDateCourse}"></td>
-        <td>
-            <a th:href="@{/admin/courses/{id}/assign-teacher(id=${c.id})}">
-                انتخاب استاد
-            </a>
-            |
-            <a th:href="@{/admin/courses/{id}/students(id=${c.id})}">
-                مدیریت دانشجویان
-            </a>
-            |
-            <a th:href="@{/admin/courses/{id}/participants(id=${c.id})}">
-                مشاهده افراد دوره
-            </a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(courses)}">
+            <td colspan="7" class="empty-row">
+                هیچ دوره‌ای ثبت نشده است.
+            </td>
+        </tr>
+
+        <tr th:each="c : ${courses}">
+            <td th:text="${c.title}"></td>
+            <td th:text="${c.courseUniqueId}"></td>
+            <td th:text="${c.startDateCourse}"></td>
+            <td th:text="${c.endDateCourse}"></td>
+            <td>
+                <a th:href="@{/admin/courses/{id}/participants(id=${c.id})}"
+                   class="action-link">
+                    مدیریت افراد
+                </a>
+            </td>
+            <td>
+                <a th:href="@{/admin/courses/{id}/edit(id=${c.id})}"
+                   class="action-link">
+                    ✏️ ویرایش
+                </a>
+            </td>
+            <td>
+                <form th:action="@{/admin/courses/{id}/delete(id=${c.id})}"
+                      method="post"
+                      style="display:inline"
+                      onsubmit="return confirm('آیا از حذف این دوره مطمئن هستید؟')">
+                    <button type="submit" class="delete-button">🗑 حذف</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
 
 </body>
 </html>

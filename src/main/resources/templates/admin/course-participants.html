@@ -3,7 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <title>افراد دوره</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f6f7f9;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 10px;
+        }
+
+        .page-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 8px;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 12px;
+            margin: 16px 0 20px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-left {
+            display: flex;
+            gap: 12px;
+        }
+
+        .primary-action {
+            text-decoration: none;
+            background-color: #1976d2;
+            color: #ffffff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .primary-action:hover {
+            background-color: #1565c0;
+            box-shadow: 0 4px 10px rgba(25,118,210,0.25);
+        }
+
+        h3 {
+            margin: 0 0 12px;
+            font-size: 16px;
+            color: #444;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .empty-row {
+            text-align: center;
+            color: #777;
+        }
+
+        select {
+            padding: 6px 8px;
+            font-size: 13px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .apply-button {
+            margin-right: 6px;
+            padding: 6px 10px;
+            font-size: 13px;
+            background-color: #e3f2fd;
+            color: #1976d2;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .apply-button:hover {
+            background-color: #bbdefb;
+        }
+
+        .remove-button {
+            background-color: #fbe9e7;
+            color: #c62828;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .remove-button:hover {
+            background-color: #f44336;
+            color: #ffffff;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 16px;
+            text-align: center;
+            text-decoration: none;
+            color: #1976d2;
+            font-size: 14px;
+        }
+    </style>
 </head>
+
 <body>
 
 <h2>
@@ -11,53 +135,91 @@
     <span th:text="${course.title}"></span>
 </h2>
 
-<hr/>
+<div class="page-container">
 
-<h3>استاد دوره</h3>
+    <div class="top-actions">
+        <div class="action-left">
+            <a th:href="@{/admin/courses/{id}/assign-teacher(id=${course.id})}"
+               class="primary-action">
+                ➕ تعیین استاد
+            </a>
 
-<div th:if="${teacher != null}">
-    <p>
-        <strong>نام:</strong>
-        <span th:text="${teacher.firstName + ' ' + teacher.familyName}"></span>
-    </p>
-    <p>
-        <strong>تخصص:</strong>
-        <span th:text="${teacher.specialization}"></span>
-    </p>
+            <a th:href="@{/admin/courses/{id}/students/add(id=${course.id})}"
+               class="primary-action">
+                ➕ افزودن دانشجو
+            </a>
+        </div>
+    </div>
+
+    <h3>شرکت‌کنندگان</h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>نام</th>
+            <th>نام خانوادگی</th>
+            <th>نقش در دوره</th>
+            <th>تغییر نقش</th>
+            <th>حذف از دوره</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <!-- اگر هیچ عضوی وجود ندارد -->
+        <tr th:if="${#lists.isEmpty(participants)}">
+            <td colspan="5" class="empty-row">
+                هیچ کاربری در این دوره ثبت نشده است.
+            </td>
+        </tr>
+
+        <!-- لیست اعضا -->
+        <tr th:each="p : ${participants}">
+            <td th:text="${p.user.firstName}"></td>
+            <td th:text="${p.user.familyName}"></td>
+            <td th:text="${p.userRole}"></td>
+
+            <td>
+                <form th:action="@{/admin/courses/{courseId}/users/{userId}/change-role(
+                        courseId=${course.id},
+                        userId=${p.user.id}
+                )}" method="post">
+
+                    <select name="role">
+                        <option value="STUDENT"
+                                th:selected="${p.userRole.name() == 'STUDENT'}">
+                            دانشجو
+                        </option>
+                        <option value="TEACHER"
+                                th:selected="${p.userRole.name() == 'TEACHER'}">
+                            استاد
+                        </option>
+                    </select>
+
+                    <button type="submit" class="apply-button">اعمال</button>
+                </form>
+            </td>
+
+            <td>
+                <form th:action="@{/admin/courses/{cId}/users/{uId}/remove(
+                        cId=${course.id},
+                        uId=${p.user.id})}"
+                      method="post"
+                      onsubmit="return confirm('آیا مطمئن هستید؟')">
+
+                    <button type="submit" class="remove-button">
+                        ❌ حذف
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/admin/courses}" class="back-link">
+        بازگشت به لیست دوره‌ها
+    </a>
+
 </div>
-
-<div th:if="${teacher == null}">
-    <p>⚠ هنوز استادی برای این دوره تعیین نشده است.</p>
-</div>
-
-<hr/>
-
-<h3>دانشجویان دوره</h3>
-
-<table border="1" cellpadding="8">
-    <thead>
-    <tr>
-        <th>نام</th>
-        <th>نام خانوادگی</th>
-        <th>رشته</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    <tr th:if="${#lists.isEmpty(students)}">
-        <td colspan="3">هیچ دانشجویی در این دوره ثبت نشده است.</td>
-    </tr>
-
-    <tr th:each="s : ${students}">
-        <td th:text="${s.firstName}"></td>
-        <td th:text="${s.familyName}"></td>
-        <td th:text="${s.major}"></td>
-    </tr>
-    </tbody>
-</table>
-
-<br/>
-<a th:href="@{/admin/courses}">بازگشت به لیست دوره‌ها</a>
 
 </body>
 </html>
