@@ -100,12 +100,12 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
     }
-
     @Override
     @Transactional(readOnly = true)
     public List<User> findApprovedUsers() {
         return userRepository.findByUserStatus(USER_STATUS.APPROVED);
     }
+    // phase 2
 
     @Override
     public List<User> findApprovedStudents() {

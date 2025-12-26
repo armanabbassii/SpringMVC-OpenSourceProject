@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>ویرایش کاربر</title>
+    <title>ویرایش آزمون</title>
 
     <style>
         body {
@@ -37,31 +37,31 @@
             display: inline-block;
         }
 
-        .form-input {
+        .form-input,
+        .form-textarea {
             width: 100%;
-            height: 42px;
-            padding: 10px 12px;
             font-size: 14px;
 
+            padding: 10px 12px;
             border: 1px solid #ccc;
             border-radius: 6px;
             box-sizing: border-box;
         }
 
-        .form-input:focus {
+        .form-input {
+            height: 42px;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
             outline: none;
             border-color: #1976d2;
-            box-shadow: 0 0 0 2px rgba(25,118,210,0.2);
-        }
-
-        .form-input[disabled] {
-            background-color: #f0f0f0;
-            color: #777;
-            cursor: not-allowed;
-        }
-
-        select.form-input {
-            height: 42px;
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
         }
 
         small {
@@ -69,14 +69,9 @@
             font-size: 12px;
         }
 
-        hr {
-            border: none;
-            border-top: 1px solid #e0e0e0;
-            margin: 8px 0;
-        }
-
         button {
             margin-top: 10px;
+
             padding: 10px;
             font-size: 15px;
             font-weight: 500;
@@ -96,7 +91,7 @@
 
         button:hover {
             background-color: #1565c0;
-            box-shadow: 0 4px 10px rgba(25,118,210,0.25);
+            box-shadow: 0 4px 10px rgba(25, 118, 210, 0.25);
         }
 
         button:active {
@@ -116,62 +111,37 @@
 
 <body>
 
-<h2>ویرایش کاربر</h2>
+<h2>ویرایش آزمون</h2>
 
 <div class="form-container">
 
-    <form th:action="@{/admin/users/{id}/edit(id=${form.id})}"
+    <form th:action="@{/teacher/exams/{id}/edit(id=${examId})}"
           th:object="${form}"
           method="post">
 
-        <!-- نام کاربری (فقط نمایش) -->
         <div>
-            <label>نام کاربری (غیرقابل ویرایش)</label>
-            <input th:field="*{username}" class="form-input" disabled/>
-        </div>
-
-        <hr/>
-
-        <div>
-            <label>نام</label>
-            <input th:field="*{firstName}" class="form-input"/>
-            <small th:errors="*{firstName}"></small>
+            <label>عنوان آزمون</label>
+            <input th:field="*{title}" class="form-input"/>
+            <small th:errors="*{title}"></small>
         </div>
 
         <div>
-            <label>نام خانوادگی</label>
-            <input th:field="*{familyName}" class="form-input"/>
-            <small th:errors="*{familyName}"></small>
+            <label>توضیحات آزمون</label>
+            <textarea th:field="*{description}"
+                      class="form-textarea"></textarea>
+            <small th:errors="*{description}"></small>
         </div>
 
         <div>
-            <label>شماره تماس</label>
-            <input th:field="*{phoneNumber}" class="form-input"/>
-        </div>
-
-        <div>
-            <label>آدرس</label>
-            <input th:field="*{address}" class="form-input"/>
-        </div>
-
-        <hr/>
-
-        <div>
-            <label>وضعیت حساب</label>
-            <select th:field="*{userStatus}" class="form-input">
-                <option th:each="s : ${statuses}"
-                        th:value="${s}"
-                        th:text="${s.title}">
-                </option>
-            </select>
+            <label>مدت آزمون (دقیقه)</label>
+            <input type="number"
+                   th:field="*{duration}"
+                   class="form-input"/>
+            <small th:errors="*{duration}"></small>
         </div>
 
         <button type="submit">💾 ذخیره تغییرات</button>
     </form>
-
-    <a th:href="@{/admin/users}" class="back-link">
-        بازگشت به لیست کاربران
-    </a>
 
 </div>
 

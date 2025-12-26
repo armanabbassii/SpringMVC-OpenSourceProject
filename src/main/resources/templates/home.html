@@ -102,13 +102,25 @@
     <p class="welcome-text">خوش آمدید 👋</p>
 
     <div class="actions">
-        <a th:href="@{/admin/users}" class="action-link">
-            مدیریت کاربران
-        </a>
 
-        <a th:href="@{/admin/courses}" class="action-link">
-            مدیریت دوره‌ها
-        </a>
+        <!-- فقط ادمین -->
+        <div th:if="${isAdmin}">
+            <a th:href="@{/admin/users}" class="action-link">
+                مدیریت کاربران
+            </a>
+
+            <a th:href="@{/admin/courses}" class="action-link">
+                مدیریت دوره‌ها
+            </a>
+        </div>
+
+        <!-- فقط استاد -->
+        <div th:if="${isTeacher}">
+            <a th:href="@{/teacher/courses}" class="action-link">
+                دوره‌های من
+            </a>
+        </div>
+
     </div>
 
     <form th:action="@{/logout}" method="post" class="logout-form">

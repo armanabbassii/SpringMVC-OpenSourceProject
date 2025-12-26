@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>آزمون‌های دوره</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f6f7f9;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        .page-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 8px;
+        }
+
+        .message {
+            margin-bottom: 16px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .error {
+            background-color: #fdecea;
+            color: #b71c1c;
+        }
+
+        .top-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .primary-action {
+            text-decoration: none;
+            background-color: #1976d2;
+            color: #ffffff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .primary-action:hover {
+            background-color: #1565c0;
+            box-shadow: 0 4px 10px rgba(25,118,210,0.25);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .empty-row {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .action-link {
+            text-decoration: none;
+            color: #1976d2;
+            font-size: 13px;
+        }
+
+        .action-link:hover {
+            text-decoration: underline;
+        }
+
+        .delete-button {
+            background-color: #fbe9e7;
+            color: #c62828;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .delete-button:hover {
+            background-color: #f44336;
+            color: #ffffff;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 16px;
+            text-align: center;
+            text-decoration: none;
+            color: #1976d2;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>
+    آزمون‌های دوره:
+    <span th:text="${course.title}"></span>
+</h2>
+
+<div class="page-container">
+
+    <div th:if="${successMessage}" class="message success">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <div th:if="${errorMessage}" class="message error">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <div class="top-actions">
+        <a th:href="@{/teacher/courses/{id}/exams/create(id=${course.id})}"
+           class="primary-action">
+            ➕ افزودن آزمون جدید
+        </a>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>عنوان</th>
+            <th>مدت (دقیقه)</th>
+            <th>ویرایش</th>
+            <th>حذف</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:if="${#lists.isEmpty(exams)}">
+            <td colspan="4" class="empty-row">
+                هیچ آزمونی توسط شما برای این دوره ایجاد نشده است
+            </td>
+        </tr>
+
+        <tr th:each="e : ${exams}">
+            <td th:text="${e.title}"></td>
+            <td th:text="${e.duration}"></td>
+            <td>
+                <a th:href="@{/teacher/exams/{id}/edit(id=${e.id})}"
+                   class="action-link">
+                    ✏️ ویرایش
+                </a>
+            </td>
+            <td>
+                <form th:action="@{/teacher/exams/{id}/delete(id=${e.id})}"
+                      method="post"
+                      style="display:inline;"
+                      onsubmit="return confirm('آیا از حذف این آزمون مطمئن هستید؟')">
+
+                    <button type="submit" class="delete-button">
+                        ❌ حذف
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/teacher/courses}" class="back-link">
+        بازگشت به دوره‌ها
+    </a>
+
+</div>
+
+</body>
+</html>

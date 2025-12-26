@@ -25,6 +25,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/teacher/**").authenticated()
                         .requestMatchers(
                                 "/error",
                                 "/register",

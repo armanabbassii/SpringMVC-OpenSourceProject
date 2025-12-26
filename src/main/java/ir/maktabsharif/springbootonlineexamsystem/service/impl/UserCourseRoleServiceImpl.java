@@ -34,10 +34,12 @@ public class UserCourseRoleServiceImpl implements UserCourseRoleService {
         if (user.getUserStatus() != USER_STATUS.APPROVED) {
             throw new IllegalStateException("user is not approved");
         }
-
+//phase 2
         if (userCourseRoleRepository.existsByCourse_IdAndUserRole(courseId, USER_ROLE.TEACHER)) {
             throw new IllegalStateException("course already has a teacher ");
         }
+        //phase 2
+
         if (userCourseRoleRepository.existsByUser_IdAndCourse_Id(userId, courseId)) {
             throw new IllegalStateException("User already assigned to this course");
         }
@@ -82,9 +84,11 @@ public class UserCourseRoleServiceImpl implements UserCourseRoleService {
 
     @Override
     public void removeUserFromCourse(Long userId, Long courseId) {
+
         UserCourseRole userCourseRole = userCourseRoleRepository
                 .findByUser_IdAndCourse_Id(userId, courseId)
                 .orElseThrow(() -> new IllegalStateException("User is not enrolled in this course"));
+        //phase 2 ( for future features)
         if (userCourseRole.getUserRole() == USER_ROLE.TEACHER) {
 
         }
@@ -105,6 +109,7 @@ public class UserCourseRoleServiceImpl implements UserCourseRoleService {
         if (userCourseRole.getUserRole() == newRole) {
             return;
         }
+
         if (newRole == USER_ROLE.TEACHER) {
             boolean hasTeacher =
                     userCourseRoleRepository
