@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>افزودن سؤال چندگزینه‌ای</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f6f7f9;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        h4 {
+            margin: 8px 0 4px;
+            font-size: 15px;
+            color: #444;
+        }
+
+        .form-container {
+            max-width: 560px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 8px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            display: inline-block;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            font-size: 14px;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .form-input {
+            height: 42px;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #1976d2;
+            box-shadow: 0 0 0 2px rgba(25,118,210,0.2);
+        }
+
+        /* ===== گزینه‌ها ===== */
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background-color: #fafafa;
+        }
+
+        .option-item:hover {
+            background-color: #f2f6fc;
+        }
+
+        .option-text {
+            flex: 1;
+        }
+
+        .option-correct {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #444;
+            white-space: nowrap;
+        }
+
+        .option-correct input {
+            cursor: pointer;
+        }
+
+        /* ===== دکمه حذف (❌) ===== */
+        .remove-option-btn {
+            background: transparent;
+            border: none;
+            padding: 4px;
+            margin: 0;
+
+            font-size: 16px;
+            line-height: 1;
+
+            cursor: pointer;
+            color: #777;
+
+            box-shadow: none;
+        }
+
+        .remove-option-btn:hover {
+            color: #d32f2f;
+            background: transparent;
+        }
+
+        .remove-option-btn:active {
+            transform: scale(0.9);
+        }
+
+        .remove-option-btn:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        small {
+            color: #d32f2f;
+            font-size: 12px;
+        }
+
+        /* ===== دکمه‌های اصلی فرم ===== */
+        .primary-btn {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 15px;
+            font-weight: 500;
+
+            background-color: #1976d2;
+            color: white;
+
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+
+            transition:
+                    background-color 0.2s ease,
+                    box-shadow 0.2s ease,
+                    transform 0.1s ease;
+        }
+
+        .primary-btn:hover {
+            background-color: #1565c0;
+            box-shadow: 0 4px 10px rgba(25,118,210,0.25);
+        }
+
+        .primary-btn:active {
+            transform: translateY(1px);
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 16px;
+            text-align: center;
+            text-decoration: none;
+            color: #1976d2;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h2>افزودن سؤال چندگزینه‌ای</h2>
+
+<div class="form-container">
+
+    <form th:action="@{/teacher/exams/{id}/questions/new/mcq(id=${examId})}"
+          th:object="${form}"
+          method="post">
+
+        <!-- عنوان -->
+        <div>
+            <label>عنوان سؤال</label>
+            <input th:field="*{title}" class="form-input"/>
+            <small th:errors="*{title}"></small>
+        </div>
+
+        <!-- صورت سوال -->
+        <div>
+            <label>صورت سؤال</label>
+            <textarea th:field="*{content}" class="form-textarea"></textarea>
+            <small th:errors="*{content}"></small>
+        </div>
+
+        <hr/>
+
+        <!-- گزینه‌ها -->
+        <h4>گزینه‌ها</h4>
+
+        <div id="options-container">
+
+            <div th:each="opt, stat : *{options}" class="option-item">
+
+                <input th:field="*{options[__${stat.index}__].text}"
+                       placeholder="متن گزینه"
+                       class="form-input option-text"
+                       required/>
+
+                <label class="option-correct">
+                    <input type="checkbox"
+                           th:field="*{options[__${stat.index}__].correctAnswer}"/>
+                    پاسخ صحیح
+                </label>
+
+                <button type="button"
+                        class="remove-option-btn"
+                        onclick="removeOption(this)">
+                    ❌
+                </button>
+            </div>
+
+        </div>
+
+        <button type="button"
+                class="primary-btn"
+                onclick="addOption()">
+            ➕ افزودن گزینه جدید
+        </button>
+
+        <hr/>
+
+        <!-- نمره -->
+        <div>
+            <label>نمره پیش‌فرض</label>
+            <input type="number"
+                   step="0.1"
+                   min="0"
+                   th:field="*{defaultScore}"
+                   class="form-input"/>
+            <small th:errors="*{defaultScore}"></small>
+        </div>
+
+        <button type="submit" class="primary-btn">
+            💾 ذخیره سؤال
+        </button>
+    </form>
+
+    <a th:href="@{/teacher/exams/{id}/questions(id=${examId})}"
+       class="back-link">
+        بازگشت
+    </a>
+
+</div>
+
+<!-- ================= JS ================= -->
+
+<script>
+    let optionIndex =
+        document.querySelectorAll('#options-container .option-item').length;
+
+    function addOption() {
+        const container = document.getElementById("options-container");
+
+        const html = `
+            <div class="option-item">
+                <input type="text"
+                       name="options[${optionIndex}].text"
+                       placeholder="متن گزینه"
+                       class="form-input option-text"
+                       required/>
+
+                <label class="option-correct">
+                    <input type="checkbox"
+                           name="options[${optionIndex}].correctAnswer"/>
+                    پاسخ صحیح
+                </label>
+
+                <button type="button"
+                        class="remove-option-btn"
+                        onclick="removeOption(this)">
+                    ❌
+                </button>
+            </div>
+        `;
+
+        container.insertAdjacentHTML("beforeend", html);
+        optionIndex++;
+    }
+
+    function removeOption(btn) {
+        btn.parentElement.remove();
+    }
+</script>
+
+</body>
+</html>

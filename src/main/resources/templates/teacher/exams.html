@@ -152,6 +152,7 @@
             <th>عنوان</th>
             <th>مدت (دقیقه)</th>
             <th>ویرایش</th>
+            <th>مدیریت سوالات</th>
             <th>حذف</th>
         </tr>
         </thead>
@@ -170,6 +171,12 @@
                 <a th:href="@{/teacher/exams/{id}/edit(id=${e.id})}"
                    class="action-link">
                     ✏️ ویرایش
+                </a>
+
+            </td>
+            <td>
+                <a th:href="@{/teacher/exams/{id}/questions(id=${e.id})}">
+                    ❓ مدیریت سوالات
                 </a>
             </td>
             <td>

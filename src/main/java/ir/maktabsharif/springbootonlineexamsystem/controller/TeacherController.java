@@ -2,8 +2,10 @@ package ir.maktabsharif.springbootonlineexamsystem.controller;
 
 import ir.maktabsharif.springbootonlineexamsystem.model.dto.exam.ExamCreateDto;
 import ir.maktabsharif.springbootonlineexamsystem.model.dto.exam.ExamEditDto;
+import ir.maktabsharif.springbootonlineexamsystem.model.dto.question.ExamQuestionViewDto;
 import ir.maktabsharif.springbootonlineexamsystem.model.entity.Course;
 import ir.maktabsharif.springbootonlineexamsystem.model.entity.Exam;
+import ir.maktabsharif.springbootonlineexamsystem.model.entity.ExamQuestion;
 import ir.maktabsharif.springbootonlineexamsystem.model.entity.UserCourseRole;
 import ir.maktabsharif.springbootonlineexamsystem.service.CourseService;
 import ir.maktabsharif.springbootonlineexamsystem.service.ExamService;
@@ -132,4 +134,27 @@ public class TeacherController {
             return "redirect:/teacher/courses";
         }
     }
+
+    // list question
+    @GetMapping("/exams/{examId}/questions")
+    public String examQuestions(
+            @PathVariable Long examId,
+            Model model
+    ) {
+        Exam exam = examService.findById(examId);
+
+//        List<ExamQuestionViewDto> examQuestions =
+//                examService.getExamQuestion(examId);
+
+        double totalScore =
+                examService.calculateTotalScore(examId);
+
+        model.addAttribute("exam", exam);
+//        model.addAttribute("examQuestions", examQuestions);
+        model.addAttribute("totalScore", totalScore);
+
+
+        return "teacher/exam-questions";
+    }
+
 }

@@ -2,10 +2,13 @@ package ir.maktabsharif.springbootonlineexamsystem.service.impl;
 
 import ir.maktabsharif.springbootonlineexamsystem.model.dto.exam.ExamCreateDto;
 import ir.maktabsharif.springbootonlineexamsystem.model.dto.exam.ExamEditDto;
+import ir.maktabsharif.springbootonlineexamsystem.model.dto.question.ExamQuestionViewDto;
 import ir.maktabsharif.springbootonlineexamsystem.model.entity.Course;
 import ir.maktabsharif.springbootonlineexamsystem.model.entity.Exam;
+import ir.maktabsharif.springbootonlineexamsystem.model.entity.ExamQuestion;
 import ir.maktabsharif.springbootonlineexamsystem.model.entity.User;
 import ir.maktabsharif.springbootonlineexamsystem.model.enums.USER_ROLE;
+import ir.maktabsharif.springbootonlineexamsystem.repository.ExamQuestionRepository;
 import ir.maktabsharif.springbootonlineexamsystem.repository.ExamRepository;
 import ir.maktabsharif.springbootonlineexamsystem.repository.UserCourseRoleRepository;
 import ir.maktabsharif.springbootonlineexamsystem.service.CourseService;
@@ -23,6 +26,7 @@ public class ExamServiceImpl implements ExamService {
     private final UserCourseRoleRepository userCourseRoleRepository;
     private final SecurityService securityService;
     private final CourseService courseService;
+    private final ExamQuestionRepository examQuestionRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -106,7 +110,7 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public Exam findById(Long id) {
         return examRepository.findById(id)
-                .orElseThrow(()-> new IllegalStateException("exam not found"));
+                .orElseThrow(() -> new IllegalStateException("exam not found"));
     }
 
     @Override
@@ -122,4 +126,16 @@ public class ExamServiceImpl implements ExamService {
 
         examRepository.delete(exam);
     }
+
+    @Transactional(readOnly = true)
+    public double calculateTotalScore(Long examId) {
+
+        List<ExamQuestion> examQuestions =
+                examQuestionRepository.findAllByExam_Id(examId);
+
+        return examQuestions.stream()
+                .mapToDouble(ExamQuestion::getDefaultScore)
+                .sum();
+    }
 }
+

@@ -44,7 +44,6 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
-
         @ModelAttribute("search")
         public UserSearchDto searchDto() {
             return new UserSearchDto();

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>بانک سوالات</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f6f7f9;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .page-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .empty-row {
+            color: #777;
+            text-align: center;
+        }
+
+        /* ===== فرم داخل ستون عملیات ===== */
+        .inline-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .score-input {
+            width: 80px;
+            height: 36px;
+            padding: 6px 8px;
+            font-size: 13px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        .message {
+            margin-bottom: 16px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .error {
+            background-color: #fdecea;
+            color: #b71c1c;
+        }
+
+        .score-input:focus {
+            outline: none;
+            border-color: #1976d2;
+            box-shadow: 0 0 0 2px rgba(25,118,210,0.2);
+        }
+
+        .add-button {
+            padding: 6px 10px;
+            font-size: 13px;
+            font-weight: 500;
+            background-color: #1976d2;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition:
+                    background-color 0.2s ease,
+                    box-shadow 0.2s ease,
+                    transform 0.1s ease;
+        }
+
+        .add-button:hover {
+            background-color: #1565c0;
+            box-shadow: 0 3px 8px rgba(25,118,210,0.25);
+        }
+
+        .add-button:active {
+            transform: translateY(1px);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 16px;
+            text-decoration: none;
+            color: #1976d2;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>
+    🏦 بانک سوالات دوره –
+    <span th:text="${exam.course.title}"></span>
+</h2>
+
+<p class="subtitle">
+    آزمون:
+    <strong th:text="${exam.title}"></strong>
+</p>
+
+<div class="page-container">
+
+    <div th:if="${successMessage}" class="message success">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <div th:if="${errorMessage}" class="message error">
+        <p th:text="${errorMessage}"></p>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>عنوان سوال</th>
+            <th>نوع</th>
+            <th colspan="2">نمره پیش‌فرض / عملیات</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:if="${#lists.isEmpty(questions)}">
+            <td colspan="4" class="empty-row">
+                سوالی برای این دوره وجود ندارد.
+            </td>
+        </tr>
+
+        <tr th:each="q : ${questions}">
+            <td th:text="${q.title}"></td>
+            <td th:text="${q.questionType}"></td>
+
+            <!-- نمره + عملیات در یک فرم -->
+            <td colspan="2">
+                <form th:action="@{/teacher/exams/{id}/questions/bank/add(id=${exam.id})}"
+                      method="post"
+                      class="inline-form">
+
+                    <input type="hidden"
+                           name="questionId"
+                           th:value="${q.id}"/>
+
+                    <!-- تنها input نمره -->
+                    <input type="number"
+                           name="defaultScore"
+                           step="0.5"
+                           min="0"
+                           required
+                           placeholder="نمره"
+                           class="score-input"/>
+
+                    <button type="submit" class="add-button">
+                        ➕ افزودن
+                    </button>
+                </form>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <a th:href="@{/teacher/exams/{id}/questions(id=${exam.id})}"
+       class="back-link">
+        ⬅ بازگشت به مدیریت سوالات آزمون
+    </a>
+
+</div>
+
+</body>
+</html>

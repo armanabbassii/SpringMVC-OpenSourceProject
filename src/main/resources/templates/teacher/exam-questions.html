@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>مدیریت سوالات آزمون</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f6f7f9;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            margin: 0 0 12px;
+            font-size: 16px;
+            color: #444;
+        }
+
+        .page-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 8px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .primary-action {
+            text-decoration: none;
+            background-color: #1976d2;
+            color: #ffffff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .primary-action:hover {
+            background-color: #1565c0;
+            box-shadow: 0 4px 10px rgba(25,118,210,0.25);
+        }
+
+        .secondary-action {
+            text-decoration: none;
+            background-color: #eeeeee;
+            color: #444;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .secondary-action:hover {
+            background-color: #e0e0e0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #e0e0e0;
+            margin: 18px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .empty-row {
+            text-align: center;
+            color: #777;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #1976d2;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>
+    مدیریت سوالات آزمون:
+    <span th:text="${exam.title}"></span>
+</h2>
+
+<div class="page-container">
+
+    <!-- اکشن‌ها -->
+    <div class="actions">
+        <a th:href="@{/teacher/exams/{id}/questions/new/mcq(id=${exam.id})}"
+           class="primary-action">
+            ➕ افزودن سوال چندگزینه‌ای
+        </a>
+
+        <a th:href="@{/teacher/exams/{id}/questions/new/descriptive(id=${exam.id})}"
+           class="primary-action">
+            ➕ افزودن سوال تشریحی
+        </a>
+
+        <a th:href="@{/teacher/exams/{id}/questions/bank(id=${exam.id})}"
+           class="secondary-action">
+            🏦 افزودن از بانک سوالات
+        </a>
+    </div>
+
+    <hr/>
+
+    <!-- سوالات آزمون -->
+    <h3>📋 سوالات آزمون</h3>
+    <div class="summary">
+        مجموع نمرات این آزمون:
+        <span th:text="${#numbers.formatDecimal(totalScore,1,1)}"></span>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>عنوان</th>
+            <th>نوع</th>
+            <th>نمره</th>
+            <th>عملیات</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:if="${#lists.isEmpty(examQuestions)}">
+            <td colspan="4" class="empty-row">
+                هنوز سوالی به این آزمون اضافه نشده است.
+            </td>
+        </tr>
+
+<!--        <tr th:each="eq : ${examQuestions}">-->
+<!--            <td th:text="${eq.title}"></td>-->
+<!--            <td th:text="${eq.questionType}"></td>-->
+<!--            <td th:text="${eq.defaultScore}"></td>-->
+<!--            <td><span>—</span></td>-->
+<!--        </tr>-->
+        </tbody>
+
+    </table>
+
+    <hr/>
+
+
+    <a th:href="@{/teacher/courses/{courseId}/exams(courseId=${exam.course.id})}"
+       class="back-link">
+        ⬅ بازگشت به لیست آزمون‌ها
+    </a>
+
+</div>
+
+</body>
+</html>
